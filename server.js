@@ -1,18 +1,19 @@
-var createError = require('http-errors');
-var express = require('express');
-var path = require('path');
-var cookieParser = require('cookie-parser');
-var logger = require('morgan');
-var session = require('express-session');
+const createError = require('http-errors');
+const express = require('express');
+const path = require('path');
+const cookieParser = require('cookie-parser');
+const logger = require('morgan');
+const session = require('express-session');
 const passport = require('passport');
 
+
+const indexRouter = require('./routes/index');
+const booksRouter = require('./routes/books');
+const authorsRouter = require('./routes/authors');
+
+const app = express();
+
 require('dotenv').config();
-
-var indexRouter = require('./routes/index');
-var booksRouter = require('./routes/books');
-
-var app = express();
-
 require('./config/database');
 require('./config/passport');
 
@@ -37,6 +38,7 @@ app.use(passport.session());
 
 app.use('/', indexRouter);
 app.use('/books', booksRouter);
+app.use('/authors', authorsRouter);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {

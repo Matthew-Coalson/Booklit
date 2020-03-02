@@ -16,5 +16,14 @@
         <% } %>
         </li>
     </ul>
+        <% books.forEach((b) => { %>
+            <div>
+                <img src="<%= b.coverArt %>" alt="Cover Art">
+                <h2><%= b.title %></h2>
+                <h5><%= b.genre.join(', ') %></h4>
+                <h3><%= b.rating %></h3>
+                <p><%= b.synopsis %></p>
+            </div>
+        <% }); %> 
 </body>
 </html>

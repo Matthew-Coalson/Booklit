@@ -7,8 +7,14 @@ module.exports = {
 };
 
 function index(req, res) {
-    console.log(req.query)
-    res.render('books/index', {
-        user: req.user
+    Book.find({}).populate('author').exec(function(err, books) {
+        console.log(err)
+        console.log(books)
+        res.render('books/index', { 
+            user: req.user,
+            books,
+            title: 'All Books',
+            User
+        })
     });
 }
