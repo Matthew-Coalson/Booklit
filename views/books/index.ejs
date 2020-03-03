@@ -13,7 +13,7 @@
             <div>
                 <img src="<%= b.coverArt %>" alt="Cover Art">
                 <a id="bookLink" href="/books/<%= b._id %>"><%= b.title %></a>
-                <a id="authorLink" href=""><%= b.author %></a>
+                <a id="authorLink" href=""><%=  b.authors[0].name %></a>
                 <h5><%= b.genre.join(', ') %></h4>
                 <h3><%= b.rating %></h3>
                 <p><%= b.synopsis %></p>

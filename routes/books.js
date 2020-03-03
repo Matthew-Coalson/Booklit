@@ -5,7 +5,7 @@ const booksCtrl = require('../controllers/books');
 
 router.get('/', booksCtrl.index);
 router.get('/:id', booksCtrl.show);
-router.post('/:id/create', isLoggedIn, booksCtrl.create);
+router.post('/:id/reviews', isLoggedIn, booksCtrl.create);
 
 
 module.exports = router;

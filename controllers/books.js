@@ -13,8 +13,6 @@ function create(req, res) {
         req.body.createdBy = req.user._id;
         book.reviews.push(req.body);
         book.save(function(err) {
-            console.log('book--', book)
-            console.log('review:--', book.reviews[0]);
             res.redirect(`/books/${book._id}`);
         });
     });
@@ -27,12 +25,10 @@ function show(req, res) {
 }
 
 function index(req, res) {
-    Book.find({}).populate('Author').exec(function(err, books) {
+    Book.find({}).populate('authors').exec(function(err, books) {
         res.render('books/index', { 
             user: req.user,
             books,
-            title: 'All Books',
-            User,
         })
     });
 }
