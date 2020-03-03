@@ -1,11 +1,4 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-</head>
-<body>
+<%- include('../partials/header') %>
     <ul>
         <li>
         <% if (user) { %>
@@ -19,11 +12,11 @@
         <% books.forEach((b) => { %>
             <div>
                 <img src="<%= b.coverArt %>" alt="Cover Art">
-                <h2><%= b.title %></h2>
+                <a id="bookLink" href="/books/<%= b._id %>"><%= b.title %></a>
+                <a id="authorLink" href=""><%= b.author %></a>
                 <h5><%= b.genre.join(', ') %></h4>
                 <h3><%= b.rating %></h3>
                 <p><%= b.synopsis %></p>
             </div>
         <% }); %> 
-</body>
-</html>
+<%- include('../partials/footer') %>

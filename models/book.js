@@ -49,7 +49,7 @@ const bookSchema = new Schema({
         required: true
     },
     releaseYr: {
-        type: Date,
+        type: Number,
         required: true
     },
     favoritedBy: [Schema.Types.ObjectId],

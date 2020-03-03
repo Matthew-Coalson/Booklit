@@ -1,0 +1,24 @@
+<%- include('../partials/header') %>
+<section>
+    <img src="<%= book.coverArt %>" alt="Cover Art">
+    <h2><%= book.title %></h2>
+    <a id="authorLink" href=""><%= book.author %></a>
+    <h5><%= book.genre.join(', ') %></h4>
+    <h3><%= book.rating %></h3>
+    <p><%= book.synopsis %></p>
+</section>
+<section>
+    <form action="/books/<%= book._id%>/create" method="POST">
+        <input type="text" name="review">
+        <input type="submit" value="Add Review">
+    </form>
+</section>
+<section>
+    <% book.reviews.forEach((r) => { %>
+        <div>
+            <p><%= r.review%></p>
+            <h5><%= r.createdBy %></h5>
+        </div>
+    <% }) %>
+</section>
+<%- include('../partials/footer') %>
