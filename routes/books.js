@@ -5,6 +5,7 @@ const booksCtrl = require('../controllers/books');
 
 router.get('/', booksCtrl.index);
 router.get('/:id', booksCtrl.show);
+router.put('/:id', isLoggedIn, booksCtrl.update);
 router.post('/:id/reviews', isLoggedIn, booksCtrl.create);
 
 

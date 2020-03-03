@@ -17,8 +17,19 @@
 <section>
     <% book.reviews.forEach((r) => { %>
         <div>
+            <form action="/books/<%= book._id %>/?_method=DELETE" method="POST">
+                <input type="hidden" name="revId" value="<%= r._id %>">
+                <input type="submit" value="X">
+            </form>
             <p><%= r.review%></p>
-            <h5><%= r.createdBy %></h5>
+            <h5><%= r.createdBy.name %></h5>
+            <h4><%= r.rating %></h4>
+            <form action="/books/<%= book._id %>/?_method=PUT" method="POST">
+                <input type="text" name="review">
+                <input type="number" name="rating">
+                <input type="hidden" name="revId" value="<%= r._id %>">
+                <input type="submit" value="Edit">
+            </form>
         </div>
     <% }) %>
 </section>

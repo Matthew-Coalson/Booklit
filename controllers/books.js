@@ -5,8 +5,23 @@ const User = require('../models/user')
 module.exports = {
     index,
     show,
-    create
+    create,
+    update
 };
+
+function update(req, res) {
+    Book.findById(req.params.id, function(err, book) {
+        const review = book.reviews.id(req.body.revId);
+        review.review = req.body.review;
+        review.rating = req.body.rating;
+        console.log(review);
+        
+        book.save(function(err) {
+            res.redirect(`/books/${book._id}`);
+        })
+
+    })
+}
 
 function create(req, res) {
     Book.findById(req.params.id, function(err, book) {
@@ -19,9 +34,9 @@ function create(req, res) {
 }
 
 function show(req, res) {
-    Book.findById(req.params.id, function(err, book) {
+    Book.findById(req.params.id).populate('reviews.createdBy').exec(function(err, book) {
         res.render('books/show', { book, user: req.user });
-    })
+    });
 }
 
 function index(req, res) {
@@ -29,19 +44,6 @@ function index(req, res) {
         res.render('books/index', { 
             user: req.user,
             books,
-        })
+        });
     });
 }
-// function index(req, res) {
-//     Book.find({}).populate({path: 'author', select: 'name'}).exec(function(err, books) {
-//         console.log(err)
-//         //books.forEach(book => console.log(book.author));
-//         res.render('books/index', { 
-//             user: req.user,
-//             books,
-//             User
-//         })
-//     });
-// }
-
-
