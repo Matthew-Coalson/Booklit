@@ -1,13 +1,21 @@
 const Book = require('../models/book');
-const User = require('../models/user')
-
 
 module.exports = {
     index,
     show,
     create,
-    update
+    update,
+    delete: deleteRev
 };
+
+function deleteRev(req, res) {
+    Book.findByIdAndUpdate(req.params.id,  
+        { $pull: { reviews: { _id: req.body.revId }}},
+        function(err, book) {
+            res.redirect(`/books/${book._id}`);
+        }
+    );
+}
 
 function update(req, res) {
     Book.findById(req.params.id, function(err, book) {
@@ -15,12 +23,11 @@ function update(req, res) {
         review.review = req.body.review;
         review.rating = req.body.rating;
         console.log(review);
-        
-        book.save(function(err) {
+        book.save(function(err, book) {
             res.redirect(`/books/${book._id}`);
         })
 
-    })
+    });
 }
 
 function create(req, res) {
