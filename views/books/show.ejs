@@ -1,17 +1,17 @@
 <%- include('../partials/header') %>
 <section>
-    <img src="<%= book.coverArt %>" alt="Cover Art">
-    <% if (b.favoritedBy.some(e => e.equals(user._id))) { %>
-        <form action="/books/favorites/?_method=DELETE" method="POST">
+    <% if (book.favoritedBy.some(e => e.equals(user._id))) { %>
+        <form action="/books/favorites/<%= book._id %>/?_method=DELETE" method="POST">
             <input type="submit" value="Unfavorite">
         </form>
         <% } else { %>
-        <form action="/books/favorites" method="POST">
-            <input type="submit" value="Favorite">
-        </form>
-    <% } %>
+            <form action="/books/favorites/<%= book._id %>" method="POST">
+                <input type="submit" value="Favorite">
+            </form>
+            <% } %>
+    <img src="<%= book.coverArt %>" alt="Cover Art">
     <h2><%= book.title %></h2>
-    <a id="authorLink" href=""><%= book.author %></a>
+    <a id="authorLink" href="/authors/<%= book.authors[0]._id %>"><%= book.authors[0].name %></a>
     <h5><%= book.genre.join(', ') %></h4>
     <h3><%= book.rating %></h3>
     <p><%= book.synopsis %></p>

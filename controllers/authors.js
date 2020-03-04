@@ -47,7 +47,7 @@ function show(req, res) {
 }
 
 function index(req, res) {
-    author.find({}).populate('authors').exec(function(err, authors) {
+    Author.find({}).populate('authors').exec(function(err, authors) {
         res.render('authors/index', { authors });
     });
 }

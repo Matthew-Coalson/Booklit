@@ -13,7 +13,6 @@ module.exports = {
 
 function createF(req, res) {
     backURL = req.header('Referer') || '/';
-    console.log("params id --------", req.params.id);
     Book.findById(req.params.id, function(err, book) {
         if (book.favoritedBy.some(e => e.equals(user._id))) {
             res.redirect(backURL);
@@ -26,16 +25,17 @@ function createF(req, res) {
 }
 
 function deleteF(req, res) {
+    backURL = req.header('Referer') || '/';
     Book.findByIdAndUpdate(req.params.id,
-        { $pull: { createdBy: {_id: req.user._id}}},
-        function(err, book) {
-            res.redirect('/books/favorites');
+        { $pull: { favoritedBy: req.user._id}},
+        function(err) {
+            res.redirect(backURL);
         });
 }
 
 function indexF(req, res) {
-    Book.find({}).populate('authors').populate('favoritedBy').exec(function(err, books) {
-        res.render('books/indexB', { books });
+    Book.find({}).populate('authors').exec(function(err, books) {
+        res.render('books/favorites', { books });
     });
 }
 
@@ -72,7 +72,7 @@ function create(req, res) {
 }
 
 function show(req, res) {
-    Book.findById(req.params.id).populate('reviews.createdBy').exec(function(err, book) {
+    Book.findById(req.params.id).populate('authors').populate('reviews.createdBy').exec(function(err, book) {
         res.render('books/show', { book });
     });
 }
