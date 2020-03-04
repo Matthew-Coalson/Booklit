@@ -1,19 +1,18 @@
 <%- include('../partials/header') %>
-    <ul>
-        <li>
-        <% if (user) { %>
-            <img src="<%= user.avatar %>" alt="nothing">
-            <a href="/logout">Log Out</a>
-        <% } else { %>
-            <a href="/auth/google">Login with Google</a>
-        <% } %>
-        </li>
-    </ul>
         <% books.forEach((b) => { %>
             <div>
+                <% if (b.favoritedBy.some(e => e.equals(user._id))) { %>
+                    <form action="/books/favorites/?_method=DELETE" method="POST">
+                        <input type="submit" value="Unfavorite">
+                    </form>
+                    <% } else { %>
+                    <form action="/books/favorites" method="POST">
+                        <input type="submit" value="Favorite">
+                    </form>
+                <% } %>
                 <img src="<%= b.coverArt %>" alt="Cover Art">
-                <a id="bookLink" href="/books/<%= b._id %>"><%= b.title %></a>
-                <a id="authorLink" href="/authors/<%= b.authors[0]._id %>"><%= b.authors[0].name %></a>
+                <a id="bookLink" href="/books/<%= b._id %>" Method="GET"><%= b.title %></a>
+                <a id="authorLink" href="/authors/<%= b.authors[0]._id %>" Method="GET"><%= b.authors[0].name %></a>
                 <h5><%= b.genre.join(', ') %></h4>
                 <h3><%= b.rating %></h3>
                 <p><%= b.synopsis %></p>

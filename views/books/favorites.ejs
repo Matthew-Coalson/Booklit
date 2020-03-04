@@ -1,0 +1,12 @@
+<%- include('../partials/header') %>
+        <% books.forEach((b) => { %>
+            <% if (b.favoritedBy.some(e => e.equals(user && user._id))) { %>
+                <div>
+                    <img src="<%= b.coverArt %>" alt="Cover Art">
+                    <a id="bookLink" href="/books/<%= b._id %>"><%= b.title %></a>
+                    <a id="authorLink" href="/authors/<%= b.authors[0]_id %>"><%= b.authors[0].name %></a>
+                    <h3><%= b.rating %></h3>
+                </div>
+            <% } %>
+        <% }); %> 
+<%- include('../partials/footer') %>

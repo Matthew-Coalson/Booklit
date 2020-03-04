@@ -1,0 +1,10 @@
+<%- include('../partials/header') %>
+        <% authors.forEach((a) => { %>
+            <div>
+                <img src="<%= a.picture %>" alt="Cover Art">
+                <a id="authorLink" href="/authors/<%= a._id %>"><%= a.name %></a>
+                <h3><%= a.rating %></h3>
+                <p><%= a.about %></p>
+            </div>
+        <% }); %> 
+<%- include('../partials/footer') %>
