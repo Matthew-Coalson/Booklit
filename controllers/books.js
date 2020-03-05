@@ -1,4 +1,5 @@
 const Book = require('../models/book');
+const func = require('../public/javascripts/functions');
 
 module.exports = {
     index,
@@ -40,23 +41,27 @@ function indexF(req, res) {
 }
 
 function deleteRev(req, res) {
-    Book.findByIdAndUpdate(req.params.id,  
-        { $pull: { reviews: { _id: req.body.revId }}},
-        function(err, book) {
-            res.redirect(`/books/${book._id}`);
+    Book.findById(req.params.id, function(err, book) {
+        const review = book.reviews.id(req.body.revId);
+        if (!review.createdBy.equals(req.user._id)) {
+            review.remove();
+            book.save(function(err, book) {
+                res.redirect(`/books/${book._id}`);
+            })
         }
-    );
+    });
 }
 
 function update(req, res) {
     Book.findById(req.params.id, function(err, book) {
         const review = book.reviews.id(req.body.revId);
-        review.review = req.body.review;
-        review.rating = req.body.rating;
-        console.log(review);
-        book.save(function(err, book) {
-            res.redirect(`/books/${book._id}`);
-        })
+        if (!review.createdBy.equals(req.user._id)) {
+            review.review = req.body.review;
+            console.log(review);
+            book.save(function(err, book) {
+                res.redirect(`/books/${book._id}`);
+            })
+        }
 
     });
 }
@@ -79,6 +84,10 @@ function show(req, res) {
 
 function index(req, res) {
     Book.find({}).populate('authors').exec(function(err, books) {
-        res.render('books/index', { books });
+        let ratingsArr = [];
+        books.forEach((b) => {
+            ratingsArr.push(func.getAvgRating(b));
+        }) 
+        res.render('books/index', { books, ratingsArr });
     });
 }

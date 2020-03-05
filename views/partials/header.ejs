@@ -3,19 +3,41 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <script
+        src="https://code.jquery.com/jquery-3.4.1.min.js"
+        integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo="
+        crossorigin="anonymous">
+    </script>
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+            
+    <link rel="stylesheet" href="/stylesheets/style.css" />
+    <script defer src="/javascripts/script.js"></script>
+    <title>Booklit</title>
 </head>
 <body>
-    <ul>
-        <li>
-        <% if (user) { %>
-            <img src="<%= user.avatar %>" alt="nothing">
-            <a href="/logout">Log Out</a>
-        <% } else { %>
-            <a href="/auth/google">Login with Google</a>
-        <% } %>
-        </li>
-        <a href="/authors">Authors</a>
-        <a href="/books">Books</a>
-        <a href="/books/favorites">My Books</a>
-    </ul>
+    <div class="navbar-fixed">
+        <nav>
+            <div class="nav-wrapper">
+                <div class="container">
+                    <a href="/books" class="brand-logo center">Booklit</a>
+                    <ul class="hide-on-med-and-down">
+                        <li><a href="/books">Books</a></li>
+                        <li><a href="/authors">Authors</a></li>
+                        <li><a href="/books/favorites">My Books</a></li>
+                        <li><a href="/authors/favorites">My Authors</a></li>
+                    </ul>
+                </div>
+                        <ul class="right">
+                        <% if (user) { %>
+                                <li><img id="avatar" class="circle" src="<%= user.avatar %>" alt="Avatar"></a></li>
+                                <li><a class="btn" href="/logout">Logout</a></li>
+                        <% } else { %>
+                            <li><a class="btn" href="/auth/google">Google Login</a></li>
+                        <% } %>
+                        </ul>
+            </div>
+        </nav>
+    </div>
+    <div class="container">

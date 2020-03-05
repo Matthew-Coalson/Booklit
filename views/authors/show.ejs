@@ -1,5 +1,14 @@
 <%- include('../partials/header') %>
 <section>
+    <% if (author.favoritedBy.some(e => e.equals(user._id))) { %>
+        <form action="/authors/favorites/<%= author._id %>/?_method=DELETE" method="POST">
+            <input type="submit" value="Unfavorite">
+        </form>
+    <% } else { %>
+        <form action="/authors/favorites/<%= author._id %>" method="POST">
+            <input type="submit" value="Favorite">
+        </form>
+    <% } %>
     <img src="<%= author.picture %>" alt="Cover Art">
     <h2><%= author.name %></h2>
     <h3><%= author.rating %></h3>
@@ -13,20 +22,21 @@
     </form>
 </section>
 <section>
-    <% author.reviews.forEach((r) => { %>
+    <% author.reviews.forEach((r, idx) => { %>
         <div>
-            <form action="/authors/<%= author._id %>/?_method=DELETE" method="POST">
-                <input type="hidden" name="revId" value="<%= r._id %>">
-                <input type="submit" value="X">
-            </form>
             <p><%= r.review%></p>
             <h5><%= r.createdBy.name %></h5>
-            <h4><%= r.rating %></h4>
-            <form action="/authors/<%= author._id %>/?_method=PUT" method="POST">
+            <h4><%= getRevAvg(r) %></h4>
+            <input type="button" class="edit-button" data-id="<%= idx %>" value="Edit">
+            <form class="edit-form" data-id="<%= idx %>" action="/authors/<%= author._id %>/?_method=PUT" method="POST">
                 <input type="text" name="review">
                 <input type="number" name="rating">
                 <input type="hidden" name="revId" value="<%= r._id %>">
-                <input type="submit" value="Edit">
+                <input type="submit" value="Submit Edit">
+            </form>
+            <form class="edit-form" data-id="<%= idx %>" action="/authors/<%= author._id %>/?_method=DELETE" method="POST">
+                <input type="hidden" name="revId" value="<%= r._id %>">
+                <input type="submit" value="X">
             </form>
         </div>
     <% }) %>

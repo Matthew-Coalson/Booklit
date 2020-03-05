@@ -1,8 +1,13 @@
-body {
-  padding: 50px;
-  font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
+#avatar {
+  height: 7vh;
+  vertical-align: middle;
 }
 
-a {
-  color: #00B7FF;
+.card img {
+  max-height: 400px;
+  object-fit: cover;
+}
+.card img.materialized.active {
+  max-height: none;
+  object-fit: none;
 }

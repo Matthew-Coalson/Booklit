@@ -1,21 +1,33 @@
 <%- include('../partials/header') %>
-        <% books.forEach((b) => { %>
-            <div>
+<div class="row">
+    <% books.forEach((b, idx) => { %>
+        <div class="col s12 m6 l4">
+            <div class="card">
+            <div class="card-image">
+                <img src="<%= b.coverArt %>">
                 <% if (user && b.favoritedBy.some(e => e.equals(user._id))) { %>
-                    <form action="/books/favorites/<%= b._id %>/?_method=DELETE" method="POST">
-                        <input type="submit" value="Unfavorite">
-                    </form>
-                    <% } else { %>
-                    <form action="/books/favorites/<%= b._id %>" method="POST">
-                        <input type="submit" value="Favorite">
-                    </form>
+                    <div class="btn-floating halfway-fab waves-effect waves-light">
+                        <form action="/books/favorites/<%= b._id %>/?_method=DELETE" method="POST">
+                            <button type="submit"><i class="material-icons">favorite</i></button>
+                        </form>
+                    </div>
+                <% } else { %>
+                    <div class="btn-floating halfway-fab waves-effect waves-light">
+                        <form action="/books/favorites/<%= b._id %>" method="POST">
+                            <button type="submit"><i class="material-icons">favorite_border</i></button>
+                        </form>
+                    </div>
                 <% } %>
-                <img src="<%= b.coverArt %>" alt="Cover Art">
-                <a id="bookLink" href="/books/<%= b._id %>"><%= b.title %></a>
-                <a id="authorLink" href="/authors/<%= b.authors[0]._id %>"><%= b.authors[0].name %></a>
-                <h5><%= b.genre.join(', ') %></h4>
-                <h3><%= b.rating %></h3>
+            </div>
+            <div class="card-content">
+                <span class="card-title"><a href="/books/<%= b._id %>"><%= b.title %></a></span>
+                <span class="right"><%= ratingsArr[idx] %></span>
                 <p><%= b.synopsis %></p>
             </div>
-        <% }); %> 
+            </div>
+        </div>
+    <% }); %> 
+</div>
 <%- include('../partials/footer') %>
+
+

@@ -1,12 +1,45 @@
 const Author = require('../models/author');
+require('../public/javascripts/functions');
+
 
 module.exports = {
     index,
     show,
     create,
     update,
-    delete: deleteRev
+    delete: deleteRev,
+    indexF,
+    deleteF,
+    createF
 };
+
+function createF(req, res) {
+    backURL = req.header('Referer') || '/';
+    Author.findById(req.params.id, function(err, author) {
+        if (author.favoritedBy.some(e => e.equals(user._id))) {
+            res.redirect(backURL);
+        }
+        author.favoritedBy.push(req.user.id);
+        author.save(function(err) {
+            res.redirect(backURL);
+        });
+    });
+}
+
+function deleteF(req, res) {
+    backURL = req.header('Referer') || '/';
+    Author.findByIdAndUpdate(req.params.id,
+        { $pull: { favoritedBy: req.user._id}},
+        function(err) {
+            res.redirect(backURL);
+        });
+}
+
+function indexF(req, res) {
+    Author.find({}).populate('authors').exec(function(err, authors) {
+        res.render('authors/favorites', { authors });
+    });
+}
 
 function deleteRev(req, res) {
     Author.findByIdAndUpdate(req.params.id,  

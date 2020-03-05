@@ -4,11 +4,11 @@
         <form action="/books/favorites/<%= book._id %>/?_method=DELETE" method="POST">
             <input type="submit" value="Unfavorite">
         </form>
-        <% } else { %>
-            <form action="/books/favorites/<%= book._id %>" method="POST">
-                <input type="submit" value="Favorite">
-            </form>
-            <% } %>
+    <% } else { %>
+        <form action="/books/favorites/<%= book._id %>" method="POST">
+            <input type="submit" value="Favorite">
+        </form>
+    <% } %>
     <img src="<%= book.coverArt %>" alt="Cover Art">
     <h2><%= book.title %></h2>
     <a id="authorLink" href="/authors/<%= book.authors[0]._id %>"><%= book.authors[0].name %></a>
@@ -24,20 +24,21 @@
     </form>
 </section>
 <section>
-    <% book.reviews.forEach((r) => { %>
+    <% book.reviews.forEach((r, idx) => { %>
         <div>
-            <form action="/books/<%= book._id %>/?_method=DELETE" method="POST">
-                <input type="hidden" name="revId" value="<%= r._id %>">
-                <input type="submit" value="X">
-            </form>
             <p><%= r.review%></p>
             <h5><%= r.createdBy.name %></h5>
             <h4><%= r.rating %></h4>
-            <form action="/books/<%= book._id %>/?_method=PUT" method="POST">
+            <input type="button" class="edit-button" data-id="<%= idx %>" value="Edit">
+            <form class="edit-form" data-id="<%= idx %>" action="/books/<%= book._id %>/?_method=PUT" method="POST">
                 <input type="text" name="review">
                 <input type="number" name="rating">
                 <input type="hidden" name="revId" value="<%= r._id %>">
-                <input type="submit" value="Edit">
+                <input type="submit" value="Submit Edit">
+            </form>
+            <form class="edit-form" data-id="<%= idx %>" action="/books/<%= book._id %>/?_method=DELETE" method="POST">
+                <input type="hidden" name="revId" value="<%= r._id %>">
+                <input type="submit" value="X">
             </form>
         </div>
     <% }) %>
