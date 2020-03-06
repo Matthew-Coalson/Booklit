@@ -6,7 +6,7 @@ Booklit is an app for finding books worth reading. Lives are busy, never waste t
 
 
 ## Technologies Used:
-Express, MongoDB, Mongoose, Jquery, Javascript, Node.js
+Express, MongoDB, Mongoose, Jquery, Javascript, Node.js, materialize
 
 ## Getting Started: 
 
