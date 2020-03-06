@@ -15,7 +15,7 @@ module.exports = {
 function createF(req, res) {
     backURL = req.header('Referer') || '/';
     Book.findById(req.params.id, function(err, book) {
-        if (book.favoritedBy.some(e => e.equals(user._id))) {
+        if (book.favoritedBy.some(e => e.equals(req.user._id))) {
             res.redirect(backURL);
         }
         book.favoritedBy.push(req.user.id);
