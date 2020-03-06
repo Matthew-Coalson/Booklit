@@ -43,26 +43,24 @@ function indexF(req, res) {
 function deleteRev(req, res) {
     Book.findById(req.params.id, function(err, book) {
         const review = book.reviews.id(req.body.revId);
-        if (!review.createdBy.equals(req.user._id)) {
-            review.remove();
-            book.save(function(err, book) {
-                res.redirect(`/books/${book._id}`);
-            })
-        }
+        if (!review.createdBy.equals(req.user._id)) return res.redirect(`/books/${book._id}`);
+        review.remove();
+        book.save(function(err, book) {
+            res.redirect(`/books/${book._id}`);
+        });
     });
 }
 
 function update(req, res) {
     Book.findById(req.params.id, function(err, book) {
         const review = book.reviews.id(req.body.revId);
-        if (!review.createdBy.equals(req.user._id)) {
-            review.review = req.body.review;
-            console.log(review);
-            book.save(function(err, book) {
-                res.redirect(`/books/${book._id}`);
-            })
-        }
-
+        if (!review.createdBy.equals(req.user._id)) return res.redirect(`/books/${book._id}`);
+        review.review = req.body.review;
+        review.rating = req.body.rating;
+        console.log(review);
+        book.save(function(err, book) {
+            res.redirect(`/books/${book._id}`);
+        })
     });
 }
 
@@ -78,7 +76,8 @@ function create(req, res) {
 
 function show(req, res) {
     Book.findById(req.params.id).populate('authors').populate('reviews.createdBy').exec(function(err, book) {
-        res.render('books/show', { book });
+        const rating = func.getAvgRating(book);
+        res.render('books/show', { book, rating });
     });
 }
 

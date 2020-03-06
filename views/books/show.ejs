@@ -1,46 +1,65 @@
 <%- include('../partials/header') %>
 <section>
-    <% if (book.favoritedBy.some(e => e.equals(user._id))) { %>
-        <form action="/books/favorites/<%= book._id %>/?_method=DELETE" method="POST">
-            <input type="submit" value="Unfavorite">
-        </form>
-    <% } else { %>
-        <form action="/books/favorites/<%= book._id %>" method="POST">
-            <input type="submit" value="Favorite">
-        </form>
-    <% } %>
-    <img src="<%= book.coverArt %>" alt="Cover Art">
-    <h2><%= book.title %></h2>
-    <a id="authorLink" href="/authors/<%= book.authors[0]._id %>"><%= book.authors[0].name %></a>
-    <h5><%= book.genre.join(', ') %></h4>
-    <h3><%= book.rating %></h3>
-    <p><%= book.synopsis %></p>
+    <div class="row">
+    <div class="col l6">
+        <div class="card large">
+            <div class="card-image">
+                <div class="parallax-container">
+                    <img src="<%= book.coverArt %>">
+                </div>
+            </div>
+            <div class="card-content">
+                <% if (user && book.favoritedBy.some(e => e.equals(user._id))) { %>
+                    <form class="right" action="/books/favorites/<%= book._id %>/?_method=DELETE" method="POST">
+                        <button class="btn-floating waves-effect waves-light" type="submit"><i class="material-icons">favorite</i></button>
+                    </form>
+                <% } else { %>
+                    <form class="right" action="/books/favorites/<%= book._id %>" method="POST">
+                        <button class="btn-floating waves-effect waves-light" type="submit" class="right"><i class="material-icons">favorite_border</i></button>
+                    </form>
+                <% } %>
+            <span class="card-title"><a class="truncate" href="/books/<%= book._id %>"><%= book.title %></a><%= rating %></span>
+            <p><%= book.synopsis %></p>
+            </div>
+            <div class="card-action">
+                <a href="/authors/<%= book.authors[0]._id%>"><%= book.authors[0].name %></a>
+            </div>
+        </div>
+    </div>
+    <div id="scroll" class="col l6">
+        <div class="row">
+            <% book.reviews.forEach((r, idx) => { %>
+                <div class="col s12">
+                <div class="card blue-grey darken-1">
+                    <div class="card-content white-text">
+                        <p><%= r.rating %></p>
+                    <span class="card-title"><%= r.createdBy.name %></span>
+                    <p><%= r.review%></p>
+                    <input type="button" class="btn right"  data-id="<%= idx %>" value="EDIT"></input>
+                    <form class="edit-form" data-id="<%= idx %>" action="/books/<%= book._id %>/?_method=PUT" method="POST">
+                        <input class="white-text" type="text" name="review">
+                        <input class="white-text" type="number" name="rating">
+                        <input type="hidden" name="revId" value="<%= r._id %>">
+                        <input type="submit" class="btn right" value="Submit Edit">
+                    </form>
+                    <form class="edit-form" data-id="<%= idx %>" action="/books/<%= book._id %>/?_method=DELETE" method="POST">
+                        <input type="hidden" name="revId" value="<%= r._id %>">
+                        <input type="submit" class ="btn" value="DELETE">
+                    </form>
+                    </div>
+                    </div>
+                </div>
+            <% }) %>
+        </div>
+    </div>
+</div>
 </section>
-<section>
-    <form action="/books/<%= book._id%>/reviews" method="POST">
-        <input type="text" name="review">
-        <input type="number" name="rating" min="1" max="9" value="5">
-        <input type="submit" value="Add Review">
+<section class="blue-grey darken-1">
+    <form class="white-text" action="/books/<%= book._id%>/reviews" method="POST">
+        <input class="white-text" type="text" name="review">
+        <input class="white-text" type="number" name="rating" min="1" max="9" value="5">
+        <input type="submit" class="btn right" value="Add Review">
     </form>
 </section>
-<section>
-    <% book.reviews.forEach((r, idx) => { %>
-        <div>
-            <p><%= r.review%></p>
-            <h5><%= r.createdBy.name %></h5>
-            <h4><%= r.rating %></h4>
-            <input type="button" class="edit-button" data-id="<%= idx %>" value="Edit">
-            <form class="edit-form" data-id="<%= idx %>" action="/books/<%= book._id %>/?_method=PUT" method="POST">
-                <input type="text" name="review">
-                <input type="number" name="rating">
-                <input type="hidden" name="revId" value="<%= r._id %>">
-                <input type="submit" value="Submit Edit">
-            </form>
-            <form class="edit-form" data-id="<%= idx %>" action="/books/<%= book._id %>/?_method=DELETE" method="POST">
-                <input type="hidden" name="revId" value="<%= r._id %>">
-                <input type="submit" value="X">
-            </form>
-        </div>
-    <% }) %>
-</section>
 <%- include('../partials/footer') %>
+

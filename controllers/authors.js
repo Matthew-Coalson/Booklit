@@ -1,6 +1,5 @@
 const Author = require('../models/author');
-require('../public/javascripts/functions');
-
+const func = require('../public/javascripts/functions');
 
 module.exports = {
     index,
@@ -75,12 +74,17 @@ function create(req, res) {
 
 function show(req, res) {
     Author.findById(req.params.id).populate('reviews.createdBy').exec(function(err, author) {
-        res.render('authors/show', { author });
+        const rating = func.getAvgRating(author);
+        res.render('authors/show', { author, rating });
     });
 }
 
 function index(req, res) {
     Author.find({}).populate('authors').exec(function(err, authors) {
-        res.render('authors/index', { authors });
+        const ratingsArr = [];
+        authors.forEach((a) => {
+            ratingsArr.push(func.getAvgRating(a));
+        }) 
+        res.render('authors/index', { authors, ratingsArr });
     });
 }

@@ -5,7 +5,7 @@ const booksCtrl = require('../controllers/books');
 
 router.get('/', booksCtrl.index);
 router.get('/favorites', isLoggedIn, booksCtrl.indexF);
-router.get('/:id', booksCtrl.show);
+router.get('/:id', isLoggedIn, booksCtrl.show);
 router.put('/:id', isLoggedIn, booksCtrl.update);
 router.delete('/:id', isLoggedIn, booksCtrl.delete);
 router.delete('/favorites/:id', isLoggedIn, booksCtrl.deleteF);

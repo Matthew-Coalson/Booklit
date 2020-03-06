@@ -1,19 +1,28 @@
 <%- include('../partials/header') %>
-        <% authors.forEach((a) => { %>
-            <div>
-                <% if (user && a.favoritedBy.some(e => e.equals(user._id))) { %>
-                    <form action="/authors/favorites/<%= a._id %>/?_method=DELETE" method="POST">
-                        <input type="submit" value="Unfavorite">
-                    </form>
+<div class="row">
+    <% authors.forEach((a, idx) => { %>
+        <div class="col m4">
+            <div class="card large">
+                <div class="card-image">
+                    <img src="<%= a.picture %>">
+                </div>
+                <div class="card-content">
+                    <% if (user && a.favoritedBy.some(e => e.equals(user._id))) { %>
+                        <form class="right" action="/authors/favorites/<%= a._id %>/?_method=DELETE" method="POST">
+                            <button class="btn-floating waves-effect waves-light" type="submit"><i class="material-icons">favorite</i></button>
+                        </form>
                     <% } else { %>
-                    <form action="/authors/favorites/<%= a._id %>" method="POST">
-                        <input type="submit" value="Favorite">
-                    </form>
-                <% } %>
-                <img src="<%= a.picture %>" alt="Cover Art">
-                <a id="authorLink" href="/authors/<%= a._id %>"><%= a.name %></a>
-                <h3><%= a.rating %></h3>
-                <p><%= a.about %></p>
+                        <form class="right" action="/authors/favorites/<%= a._id %>" method="POST">
+                            <button class="btn-floating waves-effect waves-light" type="submit" class="right"><i class="material-icons">favorite_border</i></button>
+                        </form>
+                    <% } %>
+                <span class="card-title"><a class="truncate" href="/authors/<%= a._id %>"><%= a.name %></a><%= ratingsArr[idx] %></span>
+                </div>
+                <div class="card-action">
+                    <a href="/authors/<%= a._id%>">Details</a>
+                </div>
             </div>
-        <% }); %> 
+        </div>
+    <% }); %> 
+</div>      
 <%- include('../partials/footer') %>

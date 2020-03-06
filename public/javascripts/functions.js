@@ -8,5 +8,5 @@ function getAvgRating(element) {
         ratingAvg += rev.rating;
     });
     ratingAvg = ratingAvg / element.reviews.length;
-    return isNaN(ratingAvg) ? '~' : ratingAvg;
+    return isNaN(ratingAvg) ? '~' : ratingAvg.toFixed(1);
 }
