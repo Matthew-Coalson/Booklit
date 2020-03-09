@@ -32,7 +32,9 @@
                         <p><%= r.rating %></p>
                     <span class="card-title"><%= r.createdBy.name %></span>
                     <p><%= r.review%></p>
+                    <% if (r.createdBy.equals(user._id)) { %> 
                     <input type="button" class="btn right"  data-id="<%= idx %>" value="EDIT"></input>
+                    <% } %>
                     <form class="edit-form" data-id="<%= idx %>" action="/authors/<%= author._id %>/?_method=PUT" method="POST">
                         <input class="white-text" type="text" name="review">
                         <input class="white-text" type="number" min="1" max="10" name="rating">
