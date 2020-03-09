@@ -41,17 +41,20 @@ function indexF(req, res) {
 }
 
 function deleteRev(req, res) {
-    Author.findByIdAndUpdate(req.params.id,  
-        { $pull: { reviews: { _id: req.body.revId }}},
-        function(err, author) {
+    Author.findById(req.params.id, function(err, author) {
+        const review = author.reviews.id(req.body.revId);
+        if (!review.createdBy.equals(req.user._id)) return res.redirect(`/authors/${author._id}`);
+        review.remove();
+        author.save(function(err, author) {
             res.redirect(`/authors/${author._id}`);
-        }
-    );
+        });
+    });
 }
 
 function update(req, res) {
     Author.findById(req.params.id, function(err, author) {
         const review = author.reviews.id(req.body.revId);
+        if (!review.createdBy.equals(req.user._id)) return res.redirect(`/authors/${author._id}`);
         review.review = req.body.review;
         review.rating = req.body.rating;
         console.log(review);
